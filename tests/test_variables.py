@@ -22,3 +22,10 @@ def test_add_constant():
     x = Variable(Int(), "x")
     assert c.run(x + 3, args={x: 4}) == 7
     assert c.run(3 + x, args={x: 5}) == 8
+
+def test_add_tree_variables():
+    c = Qit()
+
+    x = Variable(Int(), "x")
+    y = Variable(Int(), "y")
+    assert c.run(x + y + 1, args={x: 4, y: 3}) == 8

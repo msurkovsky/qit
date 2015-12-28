@@ -3,6 +3,15 @@ init()
 
 from qit import Range, Variable, Int, Sequence, Function
 
+def test_function_two_args():
+    c = Qit()
+
+    x = Variable(Int(), "x")
+    y = Variable(Int(), "y")
+    f = Function().takes(Int(), "x").takes(Int(), "y").returns(Int())
+    f.code("return x + y;")
+    assert c.run(f(x, y), args={x: 5, y: 4}) == 9
+
 def test_function_in_function():
     c = Qit()
     x = Variable(Int(), "x")

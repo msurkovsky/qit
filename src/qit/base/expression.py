@@ -25,3 +25,21 @@ class Expression(QitObject):
 
     def get_expression(self):
         return self
+
+    def __add__(self, other):
+        if not (self.type.is_python_instance(other) or
+               (isinstance(other, self.__class__) and self.type == other.type)):
+
+            from qit.base.type import IncompatibleTypesException
+            if isinstance(other, self.__class__):
+                raise IncompatibleTypesException(self.type, other.type)
+            raise IncompatibleTypesException(self.type, type(other))
+
+        from qit.base.function import Function
+        f = Function().takes(self.type, "a").takes(self.type, "b")
+        f.returns(self.type)
+        f.code("return a + b;")
+        return f(self, other)
+
+    def __radd__(self, other):
+        return self.__add__(other)

@@ -4,6 +4,15 @@ from qit.base.constructor import Constructor
 from qit.base.variable import Variable
 from qit.base.exception import QitException
 
+class IncompatibleTypesException(Exception):
+    def __init__(self, type1, type2):
+        self.type1 = type1
+        self.type2 = type2
+
+    def __str__(self):
+        return "'{}' is not compatible with '{}'".format(repr(self.type1),
+                                                         repr(self.type2))
+
 class Type(QitObject):
 
     pass_by_value = False

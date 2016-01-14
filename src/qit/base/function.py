@@ -27,9 +27,22 @@ class Function(QitObject):
         self.inline_code_vars = ()
         self.used_expressions = ()
         self.read_variables = ()
+        self._bounded_variables = ()
 
     def is_function(self):
         return True
+
+    @property
+    def bounded_variables(self):
+        return frozenset(self._bounded_variables)
+
+    def takes_variables(self, *variables):
+        variables = sorted_variables(variables)
+        for v in variables:
+            self.takes(v.type, v.name)
+        self._bounded_variables += tuple(variables)
+        self.uses(variables)
+        return self
 
     def takes(self, type, name=None, const=True):
         type = type.as_type()
